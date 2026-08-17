@@ -1,0 +1,8 @@
+{
+  "extraKnownMarketplaces": {
+    "ericeslinger": {
+      "source": { "source": "github", "repo": "ericeslinger/claude-skills" }
+    }
+  },
+  "enabledPlugins": { "house-style@ericeslinger": true }
+}

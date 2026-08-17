@@ -1,0 +1,25 @@
+{
+  "name": "ericeslinger",
+  "description": "Eric Eslinger's house style for Claude Code: how these projects are built, tested, and shipped.",
+  "owner": {
+    "name": "Eric Eslinger",
+    "email": "eric.eslinger@gmail.com",
+    "url": "https://github.com/ericeslinger"
+  },
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "house-style",
+      "source": "house-style",
+      "description": "Conventions for Angular + Firebase monorepos: shared zod contract, generated Firestore rules, the unit/e2e gate ladder, and the documentation practice.",
+      "version": "1.0.0",
+      "category": "workflow",
+      "tags": ["angular", "firebase", "zod", "testing", "monorepo"],
+      "author": {
+        "name": "Eric Eslinger"
+      }
+    }
+  ]
+}

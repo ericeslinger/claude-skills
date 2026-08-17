@@ -1,0 +1,9 @@
+{
+  "name": "house-style",
+  "description": "Conventions for Angular + Firebase monorepos: shared zod contract, generated Firestore rules, the unit/e2e gate ladder, and the documentation practice.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Eric Eslinger",
+    "email": "eric.eslinger@gmail.com"
+  }
+}
