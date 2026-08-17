@@ -48,10 +48,19 @@ These were considered and cut. Do not re-add them.
 
 - **"Use zod."** On its own this is close to a default for TypeScript
   projects and would have been near-worthless. It survives only in its
-  non-default form: zod as the *single* source of truth shared by three
-  consumers, with the Firestore rules **generated** from it and a
-  `--check` drift gate in CI. The headline in `data-contracts.md` is the
-  codegen, not the library.
+  non-default form: zod as the *single* source of truth shared by every
+  boundary, enforced at the callable wrapper, and — for collections the
+  client writes directly — **generated** into the Firestore rules with a
+  `--check` drift gate in CI.
+
+  _Revised 2026-08-17 (Eric)._ The first draft asserted the rules
+  codegen unconditionally, which was wrong: in a design where every
+  write goes through a function, `allow write: if false` is already the
+  strongest statement and a generated validator is dead rules. The
+  entry now turns on a prior decision — the write path, chosen per
+  collection — and explicitly rejects "it saves writing create/update
+  handlers" as a reason, since Claude writing the code makes code
+  volume a weak cost next to control surface.
 
 - **"Validate input at the boundary."** Generic on its own. What earns
   the space is the *ordering* — auth before parse, so anonymous callers

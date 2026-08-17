@@ -19,10 +19,11 @@ One plugin, `house-style`, with three skills:
 
 The conventions cover: the Angular + Firebase stack and the Firestore vs
 Postgres decision rule; monorepo layout with a shared zod contract
-package; Firestore rules whose shape validators are generated from those
-schemas; the unit-spec/e2e gate ladder (`gate` to commit, `e2e` to
-push); frontend and accessibility rules; the documentation practice; and
-shipping.
+package; choosing per collection between function-mediated and direct
+client writes, with rules shape-validators generated from the schemas
+where clients do write; the unit-spec/e2e gate ladder (`gate` to commit,
+`e2e` to push); frontend and accessibility rules; the documentation
+practice; and shipping.
 
 Reference implementations: [hubbub-club](https://github.com/ericeslinger/hubbub-club)
 (Overstory Social), [gradebook](https://github.com/ericeslinger/gradebook)

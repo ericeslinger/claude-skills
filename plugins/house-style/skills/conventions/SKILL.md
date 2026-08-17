@@ -39,9 +39,13 @@ the repo is the specific.
    packages, plus a third `schema` package that both depend on.
 3. **The schema package is the contract.** Zod schemas are the single
    source of truth for every boundary: the backend validates requests
-   against them, the frontend uses the inferred types, and the
-   Firestore `.rules` shape validators are *generated* from them so
-   malformed data cannot reach the database even from a rogue client.
+   against them and the frontend uses the inferred types. **Decide the
+   write path per collection** — a function-mediated write is enforced
+   at the callable boundary and the rules say `allow write: if false`;
+   a collection the client writes directly gets shape validators
+   *generated* from the same schemas into `.rules`, so malformed data
+   cannot reach the database even from a rogue client. Code volume is
+   not a reason to prefer either; the controls are.
 4. **Two test layers, two gates.** Colocated unit specs for every
    non-trivial file — `npm run gate` must be green **to commit**.
    Playwright journeys over the real emulated stack — `npm run e2e`
