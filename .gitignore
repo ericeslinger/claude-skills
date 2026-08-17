@@ -1,0 +1,15 @@
+# This repo is PUBLIC and holds documentation only. These patterns are a
+# guardrail against staging a credential by accident, not a hint that
+# such files may exist here — they must not. See CLAUDE.md.
+.env
+.env.*
+*.pem
+*.p12
+*.pfx
+*.key
+*service-account*.json
+*serviceAccount*.json
+
+# Editor/OS noise
+.DS_Store
+*.swp

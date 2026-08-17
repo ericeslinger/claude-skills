@@ -14,6 +14,18 @@ Permission covers: opening a PR against `ericeslinger/claude-skills`
 with a reasoned change. It does not cover merging, force-pushing,
 rewriting history, or editing `main` directly.
 
+> **`ericeslinger/claude-skills` is a PUBLIC repository.** You are
+> usually invoking this skill from inside a *private* repo, which makes
+> this the one moment where content can cross that boundary. Everything
+> you write lands world-readable and stays in git history.
+>
+> Never carry across: credentials, tokens, project ids, database names,
+> connection strings, internal hostnames, user or customer data, or
+> verbatim contents of a private file. Carry the *convention* and the
+> reasoning; leave the values behind. If the rule cannot be stated
+> without a private value, it is repo-specific — put it in that repo's
+> `CLAUDE.md` instead and do not open a PR here.
+
 ## When to do this
 
 Any of:

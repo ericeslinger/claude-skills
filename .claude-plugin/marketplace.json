@@ -3,7 +3,6 @@
   "description": "Eric Eslinger's house style for Claude Code: how these projects are built, tested, and shipped.",
   "owner": {
     "name": "Eric Eslinger",
-    "email": "eric.eslinger@gmail.com",
     "url": "https://github.com/ericeslinger"
   },
   "metadata": {

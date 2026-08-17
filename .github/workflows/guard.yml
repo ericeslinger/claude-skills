@@ -1,0 +1,79 @@
+# Guardrails for a PUBLIC repository.
+#
+# This repo is world-readable and holds documentation only. Two coarse
+# checks run on every push and pull request:
+#
+#   1. file-type allowlist — anything that is not documentation or a
+#      manifest has no business here, and an unexpected extension is the
+#      cheapest early signal that something leaked in;
+#   2. credential patterns — high-signal prefixes only, so it stays
+#      quiet enough that a failure means something.
+#
+# This is a backstop for accidents. It cannot recognize a project id, a
+# database name, or a customer name — that judgement lives in CLAUDE.md.
+# GitHub's own secret scanning with push protection runs on public repos
+# as well and blocks a wider set of known token formats at push time.
+name: Guard
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Only documentation and manifests may live here
+        run: |
+          # Allowlist by extension/name. Add to this list deliberately —
+          # if a file needs code, ask whether it belongs in this repo.
+          bad=$(git ls-files \
+            | grep -vE '(\.md|\.json|\.yml|\.yaml)$' \
+            | grep -vE '^(\.gitignore|LICENSE)$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Unexpected file types in a docs-only public repo:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "✓ every tracked file is documentation or a manifest"
+
+      - name: No credential-shaped strings
+        run: |
+          # This workflow necessarily contains the patterns themselves.
+          files=$(git ls-files | grep -v '^\.github/workflows/guard\.yml$')
+          if [ -z "$files" ]; then exit 0; fi
+
+          patterns=(
+            'gh[pousr]_[A-Za-z0-9]{20,}'
+            'github_pat_[A-Za-z0-9_]{20,}'
+            'AIza[0-9A-Za-z_-]{30,}'
+            'AKIA[0-9A-Z]{16}'
+            '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+            '"private_key_id"'
+            'iam\.gserviceaccount\.com'
+            '(postgres|postgresql|mysql|mongodb(\+srv)?)://[^[:space:]/]*:[^[:space:]/]*@'
+          )
+
+          fail=0
+          for pattern in "${patterns[@]}"; do
+            if hits=$(grep -nEI "$pattern" $files 2>/dev/null); then
+              echo "::error::credential-shaped match for /$pattern/:"
+              echo "$hits"
+              fail=1
+            fi
+          done
+
+          # Credential-bearing filenames, whatever their contents.
+          if names=$(git ls-files | grep -EI '(^|/)\.env|\.(pem|p12|pfx|key)$|service[-_]?account.*\.json$'); then
+            echo "::error::credential-shaped filenames:"
+            echo "$names"
+            fail=1
+          fi
+
+          if [ "$fail" = "1" ]; then
+            exit 1
+          fi
+          echo "✓ no credential-shaped strings or filenames"

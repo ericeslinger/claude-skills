@@ -1,5 +1,33 @@
 # Working in this repo
 
+## This repository is PUBLIC
+
+Read this before writing anything to disk here. Unlike every other repo
+in this set, `claude-skills` is world-readable, and git history is
+forever — a secret committed and reverted is still leaked.
+
+**Never commit:** credentials, API keys, tokens, service-account JSON,
+`.env` files, private keys, Firebase project ids, database names or
+connection strings, customer/student/user data, internal hostnames or
+URLs, or anything copied verbatim out of a private repo.
+
+**Do commit:** conventions, reasoning, and *shapes* — "identity is the
+auth uid," "the deploy dry-run stages a production-only install." Naming
+a public repo (`ericeslinger/gradebook`) or a public file path
+(`packages/migrations/generate-rules.ts`) is fine. Pasting the contents
+of a private config file is not.
+
+If a convention only makes sense with a private value attached, it is a
+repo-specific rule: it belongs in that repo's `CLAUDE.md`, not here.
+
+CI enforces a coarse version of this on every push and PR
+(`.github/workflows/guard.yml`): the repo may contain only documentation
+and manifest files, and known credential patterns fail the build. It is
+a backstop for accidents, not a substitute for thinking — it cannot
+recognize a project id or a customer name.
+
+## What this repo is
+
 This repo is not a project — it is the **conventions** other projects
 load. Everything in it is paid for out of the context budget of every
 session that loads it, so the bar for adding is high and the bar for

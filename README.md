@@ -1,5 +1,17 @@
 # claude-skills
 
+> [!IMPORTANT]
+> **This repository is public.** It is public on purpose: a private
+> marketplace cannot be reached from cloud sessions, whose git
+> credentials are scoped to the repositories attached to the session.
+>
+> Everything committed here is world-readable, forever, including in git
+> history. **No secrets, no credentials, no API keys, no project ids, no
+> customer or student data, no internal URLs.** If a convention needs to
+> reference something private, describe the *shape* of it and leave the
+> value in the private repo that owns it. Repo-specific rules belong in
+> that repo's `CLAUDE.md` anyway — see [CLAUDE.md](CLAUDE.md).
+
 Eric Eslinger's house style, packaged as a Claude Code plugin so every
 session — laptop, cloud, or scheduled — starts already knowing how these
 projects are built.
