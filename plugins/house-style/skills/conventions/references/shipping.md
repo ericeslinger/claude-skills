@@ -19,14 +19,32 @@ say which suite and why, and let Eric decide.
 
 ## Git
 
-**Principle.** Publishing is Eric's call, not the assistant's. Branch
-and push are cheap and reversible; a PR is a social act.
+**Principle.** Shipping is gated by checks, not by who clicks. A code
+change that passes every gate and an independent review is cheap to
+revert, so the assistant carries it all the way to `main`. A change to
+the shape of stored data is not cheap to revert, so that one waits for
+Eric.
 
-**Practice.**
+**Practice** (2026-10-05, reverses "do not open pull requests unless
+explicitly asked; Eric opens the PR"):
 
-- Work on a feature branch, push to `origin`.
-- **Do not open pull requests unless explicitly asked.** The default
-  workflow is: branch → push to origin → Eric opens the PR.
+- Work on a feature branch, push to `origin`, and **open the PR
+  yourself**. The body states which gates ran, their results, and the
+  head sha they ran on.
+- Spawn the repo's PR review agent (a subagent in `.claude/agents/`, as
+  in goblin and overstory) on the PR. Answer every finding: fix and
+  push, or reply why not. After any push, re-run both gates and ask the
+  same agent to re-review.
+- **Merge** (merge commit) when all hold: the latest review approves;
+  `npm run gate` and `npm run e2e` are green on the exact head; `main`
+  has not moved since; and the change contains **no schema change or
+  data migration**. A schema change is any change to the shape of
+  persisted data: the zod schemas for stored documents, the database
+  rules, SQL migrations. Those PRs stay open for Eric, with a comment
+  saying why.
+- **After merging, delete the merged branch**, on `origin` and locally.
+  Only branches whose PR has merged; never a branch with unmerged
+  commits, and never someone else's.
 - Where a repo is a fork with an `upstream`, **never** push to
   `upstream`, any ref, any form. Gradebook states this explicitly; treat
   it as the pattern wherever an upstream exists.
